@@ -1,0 +1,1 @@
+# Strawberry-detect-frontend
