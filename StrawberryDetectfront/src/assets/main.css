@@ -1,0 +1,122 @@
+/* src/assets/main.css */
+
+/* 借鑒 base.html 的基本字體和背景 */
+body {
+  background-color: #f8f9fa; /* 淺灰色背景 */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #333;
+}
+
+/* 全局容器樣式 */
+.container, .container-fluid {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* * 主要內容區塊的基礎樣式 
+ * 我們將在所有 View 頁面 (HomeView, HistoryView...) 的根元素使用 <main>
+ */
+main {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    max-width: 900px; /* 統一最大寬度 */
+    margin: 1.5rem auto; /* 居中並留出邊距 */
+}
+
+/* 統一 h2 標題樣式 */
+h2 {
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* 統一 h3 標題樣式 */
+h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #34495e;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* 導航列樣式 (從 App.vue 移過來並優化) */
+header {
+  line-height: 1.5;
+  max-height: 100vh;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 1rem 2rem; /* 給 header 統一 padding */
+
+  /* 【新增】使用 Flexbox 佈局 */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* 標題在左，導航在右 */
+  align-items: center;
+
+  /* 限制寬度並居中 */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header h1 {
+   font-size: 1.5rem;
+   font-weight: 600;
+   color: #0d6efd; /* Bootstrap Primary color */
+   margin: 0;
+}
+
+nav {
+   font-size: 1rem;
+   text-align: right;
+}
+
+nav a {
+   display: inline-block;
+   padding: 0.5rem 1rem;
+   margin-left: 0.5rem;
+   color: #555;
+   text-decoration: none;
+   border-radius: 5px;
+   transition: background-color 0.2s, color 0.2s;
+}
+
+nav a:hover {
+   background-color: #f0f0f0;
+   color: #000;
+}
+
+nav a.router-link-exact-active {
+   color: #0d6efd;
+   font-weight: bold;
+   background-color: rgba(13, 110, 253, 0.1);
+}
+/* --- 頁面淡入淡出動畫 --- */
+
+/* 定義進入和離開過程的持續時間和緩動效果
+*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease; /* 動畫持續 0.2 秒 */
+}
+
+/* 定義進入動畫的「開始」狀態 (透明)
+  和 離開動畫的「結束」狀態 (透明)
+*/
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* (可選) 進入動畫的「結束」狀態 (不透明)
+  和 離開動畫的「開始」狀態 (不透明)
+  預設就是 opacity: 1，所以這段可以不寫，但寫出來更清晰
+*/
+.fade-enter-to,
+.fade-leave-from {
+   opacity: 1;
+}
