@@ -6,7 +6,7 @@ const baseURL = import.meta.env.VITE_API_BASE_URL;
 // 建立一個 Axios 實例 (instance)
 const apiClient = axios.create({
   baseURL: baseURL, // 設定 API 的基本路徑
-  timeout: 30000, // 設定請求超時時間 (例如 30 秒)
+  timeout: 150000, // 設定請求超時時間 (例如 30 秒)
   headers: {
     'Content-Type': 'application/json', // 預設請求內容類型為 JSON
     // 如果你的 API 需要身份驗證 (例如 Token)，可以在這裡或請求時加入
