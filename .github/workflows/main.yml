@@ -1,16 +1,15 @@
-# .github/workflows/main.yml
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main # 或你的預設分支
-  workflow_dispatch: # 允許手動觸發
+      - main
+  workflow_dispatch:
 
 permissions:
   id-token: write
-  contents: read 
-  pages: write # 部署到 Github Pages
+  contents: read
+  pages: write
 
 jobs:
   build-and-deploy:
@@ -26,23 +25,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # 根據 package.json 相容
+          node-version: '22'
           cache: 'npm'
+          # 【修正】告訴 cache package-lock.json 的位置
+          cache-dependency-path: StrawberryDetectfront/package-lock.json
 
       - name: Install dependencies
         run: npm install
+        # 【關鍵】指定在子資料夾中執行
+        working-directory: ./StrawberryDetectfront
 
       - name: Build site
-        run: npm run build # 根據 package.json 執行
+        run: npm run build
+        # 【關鍵】指定在子資料夾中執行
+        working-directory: ./StrawberryDetectfront
         env:
-          # 【關鍵】注入您在步驟 2 設定的密鑰
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
 
       - name: Add .nojekyll file
-        run: touch dist/.nojekyll
+        # 【修正】路徑指向子資料夾的 dist
+        run: touch StrawberryDetectfront/dist/.nojekyll
 
       - name: Add 404.html file
-        run: cp dist/index.html dist/404.html
+        # 【修正】路徑指向子資料夾的 dist
+        run: cp StrawberryDetectfront/dist/index.html StrawberryDetectfront/dist/404.html
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v3
@@ -50,7 +56,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist # Vite 的輸出目錄
+          # 【修正】路徑指向子資料夾的 dist
+          path: ./StrawberryDetectfront/dist
 
       - name: Deploy to GitHub Pages
         id: deployment
