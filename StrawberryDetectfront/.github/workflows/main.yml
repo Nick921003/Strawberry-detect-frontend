@@ -1,0 +1,57 @@
+# .github/workflows/main.yml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # 或你的預設分支
+  workflow_dispatch: # 允許手動觸發
+
+permissions:
+  id-token: write
+  contents: read 
+  pages: write # 部署到 Github Pages
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # 根據 package.json 相容
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build site
+        run: npm run build # 根據 package.json 執行
+        env:
+          # 【關鍵】注入您在步驟 2 設定的密鑰
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+
+      - name: Add .nojekyll file
+        run: touch dist/.nojekyll
+
+      - name: Add 404.html file
+        run: cp dist/index.html dist/404.html
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist # Vite 的輸出目錄
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
